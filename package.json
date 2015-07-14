@@ -1,0 +1,21 @@
+{
+  "name": "shopping-list",
+  "version": "0.0.1",
+  "description": "A sleepy shopping list for Thinkful",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Thinkful",
+    "RESTful",
+    "API"
+  ],
+  "author": "Grae Drake",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.13.1"
+  }
+}
