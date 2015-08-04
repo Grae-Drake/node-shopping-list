@@ -38,20 +38,17 @@ app.post('/items', jsonParser, function(request, response) {
 app.delete('/items/:id', function(request, response) {
 
     itemId = parseInt(request.params.id, 10);
-    console.log("Storage items on delete request:", storage.items);
     for (var i = 0 ; i < storage.items.length ; i ++) {
         if (storage.items[i].id == itemId) {
             var item = storage.items[i];
             response.status(201).json(item);
-            console.log("Item to delete:", storage.items[i]);
             storage.items.splice(i, 1);
-            console.log("Revised items:", storage.items);
             return response;
         }
     }
 
     return response.sendStatus(404);
-    
+
 });
 
 app.put('/items/:id', function(request, response) {
