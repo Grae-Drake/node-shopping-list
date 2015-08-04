@@ -62,7 +62,6 @@ describe('Shopping List', function() {
             .send({'id': index})
             .end(function(err, response) {
                 should.equal(err, null);
-                console.log("Storage items in test", storage.items);
                 response.should.have.status(201);
                 response.should.be.json;
                 response.body.should.be.a('object');
@@ -79,10 +78,42 @@ describe('Shopping List', function() {
                 storage.items[1].id.should.be.a('number');
                 storage.items[1].name.should.be.a('string');
                 storage.items[1].name.should.equal('Peppers');
-
                 done();
             });
     });
-    it('should edit an item on put');
-    it('should send a 404 when trying to delete an item that doesn\'t exist');
+    it('should send a 404 when trying to delete an item that doesn\'t exist', function(done) {
+        chai.request(app)
+            .delete('/items/foo')
+            .send({'id': 'foo'})
+            .end(function(err, response) {
+                should.equal(err, null);
+                response.should.have.status(404);
+                done();
+            });
+    });
+    it('should edit an item on put', function(done) {
+        chai.request(app)
+            .put('/items/0')
+            .send({'id': '0', 'name': 'Beets'})
+            .end(function(err, response) {
+                should.equal(err, null);
+                response.should.have.status(201);
+                response.should.be.json;
+                response.body.should.be.a('object');
+                response.body.should.have.property('name');
+                response.body.should.have.property('id');
+                response.body.name.should.be.a('string');
+                response.body.id.should.be.a('number');
+                response.body.name.should.equal('Beets');
+                storage.items.should.be.a('array');
+                storage.items.should.have.length(3);
+                storage.items[0].should.be.a('object');
+                storage.items[0].should.have.property('name');
+                storage.items[0].should.have.property('id');
+                storage.items[0].id.should.be.a('number');
+                storage.items[0].name.should.be.a('string');
+                storage.items[0].name.should.equal('Beets');
+                done();
+            });
+    });
 });
