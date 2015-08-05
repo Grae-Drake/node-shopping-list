@@ -38,8 +38,8 @@ app.post('/items', jsonParser, function(request, response) {
 app.delete('/items/:id', function(request, response) {
 
     itemId = parseInt(request.params.id, 10);
-    for (var i = 0 ; i < storage.items.length ; i ++) {
-        if (storage.items[i].id == itemId) {
+    for (var i = 0 ; i < storage.items.length ; i++) {
+        if (storage.items[i].id === itemId) {
             var item = storage.items[i];
             response.status(201).json(item);
             storage.items.splice(i, 1);
@@ -51,10 +51,18 @@ app.delete('/items/:id', function(request, response) {
 
 });
 
-app.put('/items/:id', function(request, response) {
+app.put('/items/:id', jsonParser, function(request, response) {
 
-    console.log("Put body: ", request.body);
-    console.log("Put request: ", request);
+    itemId = parseInt(request.params.id, 10);
+    for (var i = 0 ; i < storage.items.length ; i++) {
+        if (storage.items[i].id === itemId) {
+            storage.items[i].name = request.body.name;
+            response.status(201).json(storage.items[i]);
+            return response;
+        }
+    }
+
+    return response.sendStatus(404);
 
     // if (itemId in storage.items) {
     //     console.log(request.body);
